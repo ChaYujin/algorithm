@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 
 /*
 문제 설명
@@ -38,7 +39,7 @@ N	number	return
 public class P1 {
     static Map<Integer, Set<Integer>> numSet = new HashMap<>();
     public static void main(String[] args) {
-        int result = solution(5, 5);
+        int result = solution(5, 12);
         System.out.println("solution result = "+result);
     }
 
@@ -85,9 +86,12 @@ public class P1 {
     }
 
     private static Set<Integer> calculateNums(Set<Integer> set1, Set<Integer> set2) {
+
         Set<Integer> newset = new HashSet<>();
         for(Integer num1 : set1){
             for(Integer num2 : set2){
+                // original version
+                /*
                 newset.add(num1 + num2);
                 newset.add(num1 - num2);
                 newset.add(num1 * num2);
@@ -98,9 +102,33 @@ public class P1 {
 
                 if( num1 != 0 )
                     newset.add(num2 / num1);
+                 */
+
+                // enum + functional interface version
+                for(Operator o : Operator.values()){
+                    newset.add(o.calc(num1,num2));
+                }
             }
         }
         return newset;
+    }
+
+    enum Operator{
+        ADD((a,b) -> a+b),
+        SUB((a,b) -> a-b),      BSUB((a,b) -> b-a),
+        MUL((a,b) -> a*b),
+        DIV((a,b) -> a/b),      BDIV((a,b) -> b/a)
+        ;
+
+        private BinaryOperator<Integer> bo;
+        private Operator(BinaryOperator<Integer> bo) {this.bo = bo;}
+        public int calc(int a, int b){
+            try {
+                return bo.apply(a,b);
+            }catch (Exception e){
+                return 0;
+            }
+        }
     }
 }
 
