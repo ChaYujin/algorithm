@@ -2,7 +2,7 @@ package dynamicprogramming;
 
 /* DOWN-UP 방식 */
 public class Fibonacci2 {
-    static int[] fiboArr = new int[100];
+    static int[] fiboArr = new int[10];
     public static void main(String[] args) {
         int answer = fibo(10);
         System.out.println("answer = "+answer);
