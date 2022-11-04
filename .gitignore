@@ -1,2 +1,8 @@
 *.class
 .idea/**/*
+/dfsbfs/
+/sort/
+/etc/
+/target/
+.classpath
+.project
